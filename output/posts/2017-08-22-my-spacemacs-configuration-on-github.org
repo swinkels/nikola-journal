@@ -1,0 +1,8 @@
+* My Spacemacs configuration on GitHub
+   :PROPERTIES:
+   :Time:     21:17
+   :END:
+I have pushed the Git repo with my Spacemacs configuration to GitHub to
+[[https://github.com/swinkels/spacemacs-config][swinkels/spacemacs-config]]. The nice thing is that it is "tangled" from the
+README, which is in Org mode format. The README is definately not complete yet,
+but it is a start.

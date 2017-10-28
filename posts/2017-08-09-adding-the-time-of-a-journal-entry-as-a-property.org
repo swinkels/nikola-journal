@@ -1,0 +1,39 @@
+* Adding the time of a journal entry as a property
+   :PROPERTIES:
+   :Time:     16:01
+   :END:
+By default org-journal prepends each title of a journal entry with time the
+entry was started. For example, the current entry was originally titled
+#+BEGIN_EXAMPLE
+16:01 Add the time of a journal entry as a property
+#+END_EXAMPLE
+I prefer to not have the start time in the title. The following snippet takes
+care of that:
+#+BEGIN_SRC emacs-lisp
+(setq org-journal-time-format "")
+#+END_SRC
+
+On the other hand, I do not want to lose that information completely. So I
+implemented a hook to automatically enter the time in a property drawer of the
+newly created entry:
+#+BEGIN_SRC emacs-lisp
+(defun add-time-as-orgmode-property()
+  (progn
+    (org-insert-property-drawer)
+    (org-entry-put (point) "Time" (format-time-string "%H:%M"))
+    (re-search-backward "^*")
+    (end-of-line)
+    )
+)
+
+(add-hook 'org-journal-after-entry-create-hook 'add-time-as-orgmode-property)
+#+END_SRC
+With this change, the current entry starts as follows
+#+BEGIN_EXAMPLE
+Add the time of a journal entry as a property
+:PROPERTIES:
+:Time:     16:01
+:END:
+#+END_EXAMPLE
+Note that I left out the '*' symbols that start the heading. If I add them,
+org-mode takes that for an actual heading, even if it is inside an example.

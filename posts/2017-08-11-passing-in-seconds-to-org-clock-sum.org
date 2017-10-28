@@ -1,0 +1,20 @@
+* Passing in seconds to org-clock-sum
+   :PROPERTIES:
+   :Time:     09:44
+   :END:
+#+BEGIN_SRC emacs-lisp
+The previous journal entry ended with the idea that we can just
+pass in TSTART and TEND as seconds. So we try that:
+(defun my-org-clock-sum-current-item ()
+  "Return time, clocked on current item in total."
+  (save-excursion
+    (save-restriction
+      (org-narrow-to-subtree)
+      (let ((tstart "2017-08-09") (tend "2017-08-10"))
+        (org-clock-sum
+         (org-time-string-to-seconds tstart)
+         (org-time-string-to-seconds tend))))))
+
+(org-map-entries 'my-org-clock-sum-current-item "emacs" 'agenda)
+#+END_SRC
+And it works!

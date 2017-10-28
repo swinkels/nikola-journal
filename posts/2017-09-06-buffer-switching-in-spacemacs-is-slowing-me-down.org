@@ -1,0 +1,61 @@
+* Buffer switching in Spacemacs is slowing me down
+   :PROPERTIES:
+   :Time:     13:38
+   :END:
+While working on code, I noticed that buffer switching in Spacemacs seemed more
+time consuming than I remembered from my handcrafted Emacs setup. I could not
+quite put my finger on what was causing it. One obvious difference is that the
+key binding for ~C-x b~, by default ~helm-mini~, whereas I used
+~ido-switch-buffer~.
+
+I found the following information in the documentation of an older Spacemacs
+clone at https://github.com/bobbyangelov:
+#+BEGIN_QUOTE
+Some users prefer the ~ido~ way of navigating the file system because it can
+remember the last selected directories and buffers and RET is used to open
+directories insteas of ~TAB~ and ~C-z~ in helm. It is possible to use ~ido~
+[...] by setting the variable ~dotspacemacs-use-ido~ to ~t~.
+#+END_QUOTE
+The memory feature of ~ido~ might explain why I seemed to need less key strokes
+for a buffer swith than with ~helm~. And the difference between ~ret~ and ~tab~
+in ~helm~ had already bitten me multiple times when using ~fgrep~. Unfortunately
+variable ~dotspacemacs-use-ido~ does not seem to exist anymore in the current
+version of Spacemacs.
+
+Then I found [[https://github.com/emacs-helm/helm/issues/1492][an issue]] in the Helm GitHub repo that indicates that as soon as a
+user enters a pattern for the buffer list, the buffer list is sorted using the
+length of the buffer name (huh?). As long as the user has not entered a pattern, the
+buffers seem to be ordered most-recently-used first. I tried this in my current
+Spacemacs installation, and it indeed works like that.
+
+The function that handles the ordering is defined like this in my current
+Spacemacs installation:
+#+BEGIN_SRC emacs-lisp
+(defun helm-buffers-sort-transformer (candidates source)
+  (if (string= helm-pattern "")
+      candidates
+      (if helm-buffers-fuzzy-matching
+          (let ((helm-pattern (helm-buffers--pattern-sans-filters)))
+            (funcall helm-fuzzy-sort-fn candidates source))
+          (sort candidates
+                (lambda (s1 s2)
+                  (< (string-width s1) (string-width s2)))))))
+#+END_SRC
+So it is a bit more complicated: as soon as the user has entered a pattern and
+~helm-buffers-fuzzy-matching~ does not hold, the buffer list is sorted using the
+length of the buffer name. In case ~helm-buffers-fuzzy-matching~ holds, sorting
+depends on the definition of ~helm-fuzzy-sort-fn~ and then it is off down the
+rabbit hole.
+
+So I decided to follow the suggestion in the aforementioned GitHub issue and
+advice ~helm-buffers-sort-transformer~ to always return the buffer names in the
+most-recently-used first order:
+#+BEGIN_SRC emacs-lisp
+(defun sks-buffers-nosort-transformer (_ candidates _)
+  candidates)
+
+(advice-add 'helm-buffers-sort-transformer :around 'sks-buffers-nosort-transformer)
+#+END_SRC
+This works fine, apart from one little thing that puzzled me when I checked the
+order of the buffers: the buffer list always shows the current buffer at the
+bottom of the list.

@@ -1,0 +1,36 @@
+* Letting CapsLock be Control and Escape
+   :PROPERTIES:
+   :Time:     20:48
+   :END:
+
+In standard Vim you use the Escape key to switch from Insert mode to Normal
+mode. You use this key very often and it quickly turns out that the Escape key
+is not in the best position: it is very likely you use your left pinky for
+that, which "pulls" your left hand from the home row.
+
+One family of alternatives you will quickly find is the key stroke 'jk', or
+'fd'. The latter is used by Spacemacs but to me its implementation does not seem
+ideal. I think the Hydra package is used, which first displays the two keys and
+only then recognizes them as a single key stroke. This temporary display of the
+two keys causes some flickering, which you will see each time you switch to
+Normal mode.
+
+An alternative approach is to remap the CapsLock key to Escape. I already have
+remapped CapsLock to Control for Emacs and, at least for now, I would like to
+keep it like that. Fortunately in Linux a tool exists that allows one to remap
+CapsLock to Control when it is used in combination with another key, and to
+Escape otherwise. This tool, named xcape, is present in the Ubuntu 16.10
+repositories.
+
+After the installation of xcape, I used the following two commands to assign the
+dual functionality to CapsLock:
+#+BEGIN_EXAMPLE bash
+# set Compose key and remap CapsLock to Ctrl
+$> setxkbmap -option ctrl:nocaps
+# make short-pressed Ctrl behave like Escape
+$> xcape -e 'Control_L=Escape'
+#+END_EXAMPLE
+
+One final note, the use of xcape is not my idea - I did not even know the tool
+existed. Some Googling for alternative keys for Escape quickly lead me to that
+solution.

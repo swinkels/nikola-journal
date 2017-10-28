@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>The journal that counts (Posts about spacemacs)</title><link>https://example.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="https://example.com/categories/spacemacs.xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:swinkels.pieter@yahoo.com"&gt;Pieter Swinkels&lt;/a&gt; </copyright><lastBuildDate>Sat, 28 Oct 2017 19:31:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Buffer switching in Spacemacs is slowing me down</title><link>https://example.com/posts/2017-09-06-buffer-switching-in-spacemacs-is-slowing-me-down.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Buffer switching in Spacemacs is slowing me down&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+While working on code, I noticed that buffer switching in Spacemacs seemed more
+time consuming than I remembered from my handcrafted Emacs setup. I could not
+quite put my finger on what was causing it. One obvious difference is that the
+key binding for &lt;code&gt;C-x b&lt;/code&gt;, by default &lt;code&gt;helm-mini&lt;/code&gt;, whereas I used
+&lt;code&gt;ido-switch-buffer&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I found the following information in the documentation of an older Spacemacs
+clone at &lt;a href="https://github.com/bobbyangelov"&gt;https://github.com/bobbyangelov&lt;/a&gt;:
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;
+Some users prefer the &lt;code&gt;ido&lt;/code&gt; way of navigating the file system because it can
+remember the last selected directories and buffers and RET is used to open
+directories insteas of &lt;code&gt;TAB&lt;/code&gt; and &lt;code&gt;C-z&lt;/code&gt; in helm. It is possible to use &lt;code&gt;ido&lt;/code&gt;
+[…] by setting the variable &lt;code&gt;dotspacemacs-use-ido&lt;/code&gt; to &lt;code&gt;t&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+The memory feature of &lt;code&gt;ido&lt;/code&gt; might explain why I seemed to need less key strokes
+for a buffer swith than with &lt;code&gt;helm&lt;/code&gt;. And the difference between &lt;code&gt;ret&lt;/code&gt; and &lt;code&gt;tab&lt;/code&gt;
+in &lt;code&gt;helm&lt;/code&gt; had already bitten me multiple times when using &lt;code&gt;fgrep&lt;/code&gt;. Unfortunately
+variable &lt;code&gt;dotspacemacs-use-ido&lt;/code&gt; does not seem to exist anymore in the current
+version of Spacemacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+Then I found &lt;a href="https://github.com/emacs-helm/helm/issues/1492"&gt;an issue&lt;/a&gt; in the Helm GitHub repo that indicates that as soon as a
+user enters a pattern for the buffer list, the buffer list is sorted using the
+length of the buffer name (huh?). As long as the user has not entered a pattern, the
+buffers seem to be ordered most-recently-used first. I tried this in my current
+Spacemacs installation, and it indeed works like that.
+&lt;/p&gt;
+
+&lt;p&gt;
+The function that handles the ordering is defined like this in my current
+Spacemacs installation:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;helm-buffers-sort-transformer&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;candidates&lt;/span&gt; &lt;span class="nv"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string=&lt;/span&gt; &lt;span class="nv"&gt;helm-pattern&lt;/span&gt; &lt;span class="s"&gt;""&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;candidates&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;helm-buffers-fuzzy-matching&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;helm-pattern&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;helm-buffers--pattern-sans-filters&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;funcall&lt;/span&gt; &lt;span class="nv"&gt;helm-fuzzy-sort-fn&lt;/span&gt; &lt;span class="nv"&gt;candidates&lt;/span&gt; &lt;span class="nv"&gt;source&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sort&lt;/span&gt; &lt;span class="nv"&gt;candidates&lt;/span&gt;
+		&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s1&lt;/span&gt; &lt;span class="nv"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-width&lt;/span&gt; &lt;span class="nv"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-width&lt;/span&gt; &lt;span class="nv"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;)))))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+So it is a bit more complicated: as soon as the user has entered a pattern and
+&lt;code&gt;helm-buffers-fuzzy-matching&lt;/code&gt; does not hold, the buffer list is sorted using the
+length of the buffer name. In case &lt;code&gt;helm-buffers-fuzzy-matching&lt;/code&gt; holds, sorting
+depends on the definition of &lt;code&gt;helm-fuzzy-sort-fn&lt;/code&gt; and then it is off down the
+rabbit hole.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I decided to follow the suggestion in the aforementioned GitHub issue and
+advice &lt;code&gt;helm-buffers-sort-transformer&lt;/code&gt; to always return the buffer names in the
+most-recently-used first order:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;sks-buffers-nosort-transformer&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;_&lt;/span&gt; &lt;span class="nv"&gt;candidates&lt;/span&gt; &lt;span class="nv"&gt;_&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;candidates&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;advice-add&lt;/span&gt; &lt;span class="ss"&gt;'helm-buffers-sort-transformer&lt;/span&gt; &lt;span class="nv"&gt;:around&lt;/span&gt; &lt;span class="ss"&gt;'sks-buffers-nosort-transformer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This works fine, apart from one little thing that puzzled me when I checked the
+order of the buffers: the buffer list always shows the current buffer at the
+bottom of the list.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>spacemacs</category><guid>https://example.com/posts/2017-09-06-buffer-switching-in-spacemacs-is-slowing-me-down.html</guid><pubDate>Wed, 06 Sep 2017 11:38:00 GMT</pubDate></item><item><title>Spacemacs and the super star (*)</title><link>https://example.com/posts/2017-08-31-spacemacs-and-the-super-star----.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Spacemacs and the super star (*)&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Spacemacs supports the Vim super star functionality to search for the current
+word. When you press "*", it shows a small menu in the minibuffer called "Symbol
+Highlight Transient State". This menu offers some standard key bindings to jump
+to the next and previous occurrence of the word, but also some that made me go
+"Wow!":
+&lt;/p&gt;
+
+&lt;p&gt;
+r to switch between searching for the visual buffer or the whole file
+b to search all the buffers
+f to search a directory of your choosing using helm-ag
+/ to search the whole project using helm-ag
+&lt;/p&gt;
+
+&lt;p&gt;
+It just works out of the box.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>spacemacs</category><guid>https://example.com/posts/2017-08-31-spacemacs-and-the-super-star----.html</guid><pubDate>Thu, 31 Aug 2017 19:21:00 GMT</pubDate></item><item><title>My Spacemacs configuration on GitHub</title><link>https://example.com/posts/2017-08-22-my-spacemacs-configuration-on-github.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;My Spacemacs configuration on GitHub&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+I have pushed the Git repo with my Spacemacs configuration to GitHub to
+&lt;a href="https://github.com/swinkels/spacemacs-config"&gt;swinkels/spacemacs-config&lt;/a&gt;. The nice thing is that it is "tangled" from the
+README, which is in Org mode format. The README is definately not complete yet,
+but it is a start.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>orgmode</category><category>spacemacs</category><guid>https://example.com/posts/2017-08-22-my-spacemacs-configuration-on-github.html</guid><pubDate>Tue, 22 Aug 2017 19:17:00 GMT</pubDate></item><item><title>evil-org-mode key bindings override Vim bindings</title><link>https://example.com/posts/2017-08-16-evil-org-mode-key-bindings-override-vim-bindings.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;evil-org-mode key bindings override Vim bindings&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+The Spacemacs Org layer introduces several key bindings but unfortunately also
+overrides standard Vim bindings. In Vim, when you press 't' (in Normal mode),
+the cursor moves to the position right before the character that follows the 't'
+command. In Spacemacs, when you press 't' the type of the current headline
+changes, e.g. from standard title to TODO. I am not that fond of changes to
+standard Vim key bindings, especially not now while I am trying to become
+proficient in Vim.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out that minor mode evil-org-mode brings along the new key map. I could
+disable evil-org-mode, but this might be rather drastic. I could also restore
+the bindings of the keys that trouble me. For now I have decided to leave
+everything as-is. If the lack of 't' (or other keys) turns out to be
+troublesome, I will handle it then.
+&lt;/p&gt;
+
+&lt;p&gt;
+In case I do decide to disable evil-org-mode, note that the function of the same
+name is added to org-mode-hook in evil-org.el. To disable it, I can remove it
+from the org-mode-hook in my .spacemacs.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><category>spacemacs</category><guid>https://example.com/posts/2017-08-16-evil-org-mode-key-bindings-override-vim-bindings.html</guid><pubDate>Wed, 16 Aug 2017 20:20:00 GMT</pubDate></item><item><title>Letting CapsLock be Control and Escape</title><link>https://example.com/posts/2017-08-16-letting-capslock-be-control-and-escape.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Letting CapsLock be Control and Escape&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+In standard Vim you use the Escape key to switch from Insert mode to Normal
+mode. You use this key very often and it quickly turns out that the Escape key
+is not in the best position: it is very likely you use your left pinky for
+that, which "pulls" your left hand from the home row.
+&lt;/p&gt;
+
+&lt;p&gt;
+One family of alternatives you will quickly find is the key stroke 'jk', or
+'fd'. The latter is used by Spacemacs but to me its implementation does not seem
+ideal. I think the Hydra package is used, which first displays the two keys and
+only then recognizes them as a single key stroke. This temporary display of the
+two keys causes some flickering, which you will see each time you switch to
+Normal mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+An alternative approach is to remap the CapsLock key to Escape. I already have
+remapped CapsLock to Control for Emacs and, at least for now, I would like to
+keep it like that. Fortunately in Linux a tool exists that allows one to remap
+CapsLock to Control when it is used in combination with another key, and to
+Escape otherwise. This tool, named xcape, is present in the Ubuntu 16.10
+repositories.
+&lt;/p&gt;
+
+&lt;p&gt;
+After the installation of xcape, I used the following two commands to assign the
+dual functionality to CapsLock:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+# set Compose key and remap CapsLock to Ctrl
+$&amp;gt; setxkbmap -option ctrl:nocaps
+# make short-pressed Ctrl behave like Escape
+$&amp;gt; xcape -e 'Control_L=Escape'
+&lt;/pre&gt;
+
+&lt;p&gt;
+One final note, the use of xcape is not my idea - I did not even know the tool
+existed. Some Googling for alternative keys for Escape quickly lead me to that
+solution.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>spacemacs</category><guid>https://example.com/posts/2017-08-16-letting-capslock-be-control-and-escape.html</guid><pubDate>Wed, 16 Aug 2017 18:48:00 GMT</pubDate></item></channel></rss>

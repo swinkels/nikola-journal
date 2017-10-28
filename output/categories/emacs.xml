@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>The journal that counts (Posts about emacs)</title><link>https://example.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="https://example.com/categories/emacs.xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:swinkels.pieter@yahoo.com"&gt;Pieter Swinkels&lt;/a&gt; </copyright><lastBuildDate>Sat, 28 Oct 2017 19:31:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Installing Emacs 25.x on Ubuntu</title><link>https://example.com/posts/2017-09-19-installing-emacs-25.x-on-ubuntu.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Installing Emacs 25.x on Ubuntu&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+Currently I am running Ubuntu 16.04, which comes with Emacs 24.5.1, an Emacs
+version from April 2015. The latest version of Emacs version is 25.3, which was
+just released last week. Because I was seeing some graphical glitches in 24.5,
+for example with relative line numbering in Spacemacs, I wanted to try that
+latest release.
+&lt;/p&gt;
+
+&lt;p&gt;
+Fortunately Kevin Kelley has been so kind to provide a &lt;a href="https://launchpad.net/~kelleyk/+archive/ubuntu/emacs"&gt;PPA for Emacs 25&lt;/a&gt; packages
+for all current Ubuntu releases. It even contains packages for Emacs 25.3. Using
+this PPA installation of Emacs 25.3 was a breeze. I installed it side-by-side
+with the version of Emacs that comes with Ubuntu.
+&lt;/p&gt;
+
+&lt;p&gt;
+I wrote this journal entry with Emacs 25.3 and so far, so good.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>ubuntu</category><guid>https://example.com/posts/2017-09-19-installing-emacs-25.x-on-ubuntu.html</guid><pubDate>Tue, 19 Sep 2017 20:10:00 GMT</pubDate></item><item><title>evil-org-mode key bindings override Vim bindings</title><link>https://example.com/posts/2017-08-16-evil-org-mode-key-bindings-override-vim-bindings.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;evil-org-mode key bindings override Vim bindings&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+The Spacemacs Org layer introduces several key bindings but unfortunately also
+overrides standard Vim bindings. In Vim, when you press 't' (in Normal mode),
+the cursor moves to the position right before the character that follows the 't'
+command. In Spacemacs, when you press 't' the type of the current headline
+changes, e.g. from standard title to TODO. I am not that fond of changes to
+standard Vim key bindings, especially not now while I am trying to become
+proficient in Vim.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out that minor mode evil-org-mode brings along the new key map. I could
+disable evil-org-mode, but this might be rather drastic. I could also restore
+the bindings of the keys that trouble me. For now I have decided to leave
+everything as-is. If the lack of 't' (or other keys) turns out to be
+troublesome, I will handle it then.
+&lt;/p&gt;
+
+&lt;p&gt;
+In case I do decide to disable evil-org-mode, note that the function of the same
+name is added to org-mode-hook in evil-org.el. To disable it, I can remove it
+from the org-mode-hook in my .spacemacs.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><category>spacemacs</category><guid>https://example.com/posts/2017-08-16-evil-org-mode-key-bindings-override-vim-bindings.html</guid><pubDate>Wed, 16 Aug 2017 20:20:00 GMT</pubDate></item><item><title>Letting CapsLock be Control and Escape</title><link>https://example.com/posts/2017-08-16-letting-capslock-be-control-and-escape.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Letting CapsLock be Control and Escape&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+In standard Vim you use the Escape key to switch from Insert mode to Normal
+mode. You use this key very often and it quickly turns out that the Escape key
+is not in the best position: it is very likely you use your left pinky for
+that, which "pulls" your left hand from the home row.
+&lt;/p&gt;
+
+&lt;p&gt;
+One family of alternatives you will quickly find is the key stroke 'jk', or
+'fd'. The latter is used by Spacemacs but to me its implementation does not seem
+ideal. I think the Hydra package is used, which first displays the two keys and
+only then recognizes them as a single key stroke. This temporary display of the
+two keys causes some flickering, which you will see each time you switch to
+Normal mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+An alternative approach is to remap the CapsLock key to Escape. I already have
+remapped CapsLock to Control for Emacs and, at least for now, I would like to
+keep it like that. Fortunately in Linux a tool exists that allows one to remap
+CapsLock to Control when it is used in combination with another key, and to
+Escape otherwise. This tool, named xcape, is present in the Ubuntu 16.10
+repositories.
+&lt;/p&gt;
+
+&lt;p&gt;
+After the installation of xcape, I used the following two commands to assign the
+dual functionality to CapsLock:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+# set Compose key and remap CapsLock to Ctrl
+$&amp;gt; setxkbmap -option ctrl:nocaps
+# make short-pressed Ctrl behave like Escape
+$&amp;gt; xcape -e 'Control_L=Escape'
+&lt;/pre&gt;
+
+&lt;p&gt;
+One final note, the use of xcape is not my idea - I did not even know the tool
+existed. Some Googling for alternative keys for Escape quickly lead me to that
+solution.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>spacemacs</category><guid>https://example.com/posts/2017-08-16-letting-capslock-be-control-and-escape.html</guid><pubDate>Wed, 16 Aug 2017 18:48:00 GMT</pubDate></item><item><title>Passing in seconds to org-clock-sum</title><link>https://example.com/posts/2017-08-11-passing-in-seconds-to-org-clock-sum.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Passing in seconds to org-clock-sum&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;The&lt;/span&gt; &lt;span class="nv"&gt;previous&lt;/span&gt; &lt;span class="nv"&gt;journal&lt;/span&gt; &lt;span class="nv"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;ended&lt;/span&gt; &lt;span class="nv"&gt;with&lt;/span&gt; &lt;span class="nv"&gt;the&lt;/span&gt; &lt;span class="nv"&gt;idea&lt;/span&gt; &lt;span class="nv"&gt;that&lt;/span&gt; &lt;span class="nv"&gt;we&lt;/span&gt; &lt;span class="nv"&gt;can&lt;/span&gt; &lt;span class="nv"&gt;just&lt;/span&gt;
+&lt;span class="nv"&gt;pass&lt;/span&gt; &lt;span class="nv"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;TSTART&lt;/span&gt; &lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="nv"&gt;TEND&lt;/span&gt; &lt;span class="nv"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;seconds&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;So&lt;/span&gt; &lt;span class="nv"&gt;we&lt;/span&gt; &lt;span class="nv"&gt;try&lt;/span&gt; &lt;span class="nv"&gt;that:&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="s"&gt;"Return time, clocked on current item in total."&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-excursion&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-restriction&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-narrow-to-subtree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;tstart&lt;/span&gt; &lt;span class="s"&gt;"2017-08-09"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;tend&lt;/span&gt; &lt;span class="s"&gt;"2017-08-10"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-clock-sum&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-time-string-to-seconds&lt;/span&gt; &lt;span class="nv"&gt;tstart&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-time-string-to-seconds&lt;/span&gt; &lt;span class="nv"&gt;tend&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-map-entries&lt;/span&gt; &lt;span class="ss"&gt;'my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="s"&gt;"emacs"&lt;/span&gt; &lt;span class="ss"&gt;'agenda&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+And it works!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-11-passing-in-seconds-to-org-clock-sum.html</guid><pubDate>Fri, 11 Aug 2017 07:44:00 GMT</pubDate></item><item><title>org-clock-sum and the time range parameters</title><link>https://example.com/posts/2017-08-10-org-clock-sum-and-the-time-range-parameters.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;org-clock-sum and the time range parameters&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Emacs function org-clock-sum has the following signature
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;org-clock-sum&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;&amp;amp;optional&lt;/span&gt; &lt;span class="nv"&gt;tstart&lt;/span&gt; &lt;span class="nv"&gt;tend&lt;/span&gt; &lt;span class="nv"&gt;headline-filter&lt;/span&gt; &lt;span class="nv"&gt;propname&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+where "TSTART and TEND can mark a time range to be considered". So, what kind
+of values are TSTART and TEND?
+&lt;/p&gt;
+
+&lt;p&gt;
+Looking at the implementation, you see that org-clock-sum converts these
+parameters when they are string values:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;stringp&lt;/span&gt; &lt;span class="nv"&gt;tstart&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;tstart&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-time-string-to-seconds&lt;/span&gt; &lt;span class="nv"&gt;tstart&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;stringp&lt;/span&gt; &lt;span class="nv"&gt;tend&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;tend&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-time-string-to-seconds&lt;/span&gt; &lt;span class="nv"&gt;tend&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+So the first thing we can deduce from this is that TSTART and TEND can each
+denote a time string that together denote the "time range to be considered".
+&lt;/p&gt;
+
+&lt;p&gt;
+org-time-string-to-seconds passes this time string to org-time-string-to-time,
+which passes it to org-parse-time-string. The documentation of the latter
+mentions that it parses "the standard Org-mode time string". A quick Google
+search did not turn up a proper definition of this standard string. Some trial
+and error seems to indicate that every string that contains a YYYY-MM-DD
+substring is valid.
+&lt;/p&gt;
+
+&lt;p&gt;
+All this means that the yesterday's snippet can be simplified to
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="s"&gt;"Return time, clocked on current item in total."&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-excursion&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-restriction&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-narrow-to-subtree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-clock-sum&lt;/span&gt; &lt;span class="s"&gt;"2017-08-09"&lt;/span&gt; &lt;span class="s"&gt;"2017-08-10"&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-map-entries&lt;/span&gt; &lt;span class="ss"&gt;'my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="s"&gt;"emacs"&lt;/span&gt; &lt;span class="ss"&gt;'agenda&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+I do not think passing strings to org-clock-sum is the approach to take. In the
+end we have to call org-clock-sum on subsequent days. Unless org-mode has some
+functions to "increase" a time string by one day, this might be difficult using
+strings.
+&lt;/p&gt;
+
+&lt;p&gt;
+Fortunately, org-clock-sum also seems to work with seconds. Once the time
+strings are converted to seconds, the rest of org-clock-sum works with these
+seconds. So probably we can just pass in TSTART and TEND as seconds.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-10-org-clock-sum-and-the-time-range-parameters.html</guid><pubDate>Thu, 10 Aug 2017 20:06:00 GMT</pubDate></item><item><title>Summarizing the clocking time in a journal entry</title><link>https://example.com/posts/2017-08-09-summarizing-the-clocking-time-in-a-journal-entry.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Summarizing the clocking time in a journal entry&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+I would like to use org-mode and org-journal to keep track of the time worked
+for a specific customer. A single journal entry could then register the time
+worked for that day, but also for other days.
+&lt;/p&gt;
+
+&lt;p&gt;
+org-mode stores the clocked work time in a so-called LOGBOOK drawer of a
+headline. To give an example, the following LOGBOOK specifies I worked from
+9:00 to 17:00 on Tuesday, August 8 2017:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+:LOGBOOK:
+CLOCK: [2017-08-08 Tue 22:45]--[2017-08-08 Tue 22:50] =&amp;gt;  0:05
+CLOCK: [2017-08-09 Wed 22:45]--[2017-08-09 Wed 22:50] =&amp;gt;  0:05
+:END:
+&lt;/pre&gt;
+&lt;p&gt;
+As mentioned, I would like to be able to clock more times in the same LOGBOOK.
+&lt;/p&gt;
+
+&lt;p&gt;
+Using Emacs function org-clock-report you can insert a clocking table with the
+total clocking times in a certain time window. Although that function accepts a
+lot of parameters to customize its output, I could not use it to create one
+table that contained an overview of hours per day.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I investigated how I could retrieve the required information
+programmatically and build the table from that. It was quite a puzzle to find
+out how to do that but the following two org-mode functions should make it
+possible:
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;org-map-entries, which calls a given function on each headline in your
+agenda files
+&lt;/li&gt;
+&lt;li&gt;org-clock-sum-current-item, which returns the time clocked on the current
+headline
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+The following snippet shows how I used this functions to get an initial result:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="s"&gt;"Return time, clocked on current item in total."&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-excursion&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;save-restriction&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-narrow-to-subtree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-clock-sum&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-matcher-time&lt;/span&gt; &lt;span class="s"&gt;"2017-08-09"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-matcher-time&lt;/span&gt; &lt;span class="s"&gt;"2017-08-10"&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-map-entries&lt;/span&gt; &lt;span class="ss"&gt;'my-org-clock-sum-current-item&lt;/span&gt; &lt;span class="s"&gt;"emacs"&lt;/span&gt; &lt;span class="ss"&gt;'agenda&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+The last call returns the list of total time clocked on August 9, 2017 for each
+headline with tag "emacs".
+&lt;/p&gt;
+
+&lt;p&gt;
+For now, as a proof-of-concept, this suffices but we are not there yet. For
+example, org-clock-report accepts a parameter that allows you to specify the
+time window as a specific date, week, month etc. It would be nice if I could
+also support this "block" parameter - note that org-clock-get-table-data
+contains the code to parse this parameter.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-09-summarizing-the-clocking-time-in-a-journal-entry.html</guid><pubDate>Wed, 09 Aug 2017 21:38:00 GMT</pubDate></item><item><title>Adding the time of a journal entry as a property</title><link>https://example.com/posts/2017-08-09-adding-the-time-of-a-journal-entry-as-a-property.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Adding the time of a journal entry as a property&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+By default org-journal prepends each title of a journal entry with time the
+entry was started. For example, the current entry was originally titled
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+16:01 Add the time of a journal entry as a property
+&lt;/pre&gt;
+&lt;p&gt;
+I prefer to not have the start time in the title. The following snippet takes
+care of that:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;org-journal-time-format&lt;/span&gt; &lt;span class="s"&gt;""&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+On the other hand, I do not want to lose that information completely. So I
+implemented a hook to automatically enter the time in a property drawer of the
+newly created entry:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;add-time-as-orgmode-property&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;progn&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-insert-property-drawer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-entry-put&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;point&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s"&gt;"Time"&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;format-time-string&lt;/span&gt; &lt;span class="s"&gt;"%H:%M"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;re-search-backward&lt;/span&gt; &lt;span class="s"&gt;"^*"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;end-of-line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-hook&lt;/span&gt; &lt;span class="ss"&gt;'org-journal-after-entry-create-hook&lt;/span&gt; &lt;span class="ss"&gt;'add-time-as-orgmode-property&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+With this change, the current entry starts as follows
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+Add the time of a journal entry as a property
+:PROPERTIES:
+:Time:     16:01
+:END:
+&lt;/pre&gt;
+&lt;p&gt;
+Note that I left out the '*' symbols that start the heading. If I add them,
+org-mode takes that for an actual heading, even if it is inside an example.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-09-adding-the-time-of-a-journal-entry-as-a-property.html</guid><pubDate>Wed, 09 Aug 2017 14:01:00 GMT</pubDate></item><item><title>Finding journal entries from the org-mode Agenda buffer</title><link>https://example.com/posts/2017-08-09-finding-journal-entries-from-the-org-mode-agenda-buffer.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Finding journal entries from the org-mode Agenda buffer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+The org-mode Agenda buffer allows you to easily list all headlines (such as
+journal entries) that match specific tags or properties. For this to work you
+have to tell org-mode which files it has to search:
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Variable org-agenda-files contains a list of directories and files to
+search.
+&lt;/li&gt;
+&lt;li&gt;If an element of org-agenda-files is a directory, org-mode searches through
+those files whose name satisfies the regular expression
+org-agenda-file-regexp.
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+Journal files are placed in directory org-journal-dir, so we extend
+org-agenda-files to consider this directory also:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-to-list&lt;/span&gt; &lt;span class="ss"&gt;'org-agenda-files&lt;/span&gt; &lt;span class="nv"&gt;org-journal-dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This is not enough as org-mode only considers those file that end with
+extension .org. By default, journal files do not have that extension - their
+name follows the pattern "%Y%m%d". I could extend the regular expression
+org-agenda-file-regexp to consider journal files also, but it is easier to let
+journal files have the .org extension:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;custom-set-variables&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;org-journal-file-format&lt;/span&gt; &lt;span class="s"&gt;"%Y%m%d.org"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-09-finding-journal-entries-from-the-org-mode-agenda-buffer.html</guid><pubDate>Wed, 09 Aug 2017 13:36:00 GMT</pubDate></item><item><title>org-journal-search excludes the start and end date</title><link>https://example.com/posts/2017-08-09-org-journal-search-excludes-the-start-and-end-date.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;org-journal-search excludes the start and end date&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+org-journal-search asks for the start and end date of the time window to
+search. It turns out that it searches between those dates but not at those
+dates.
+&lt;/p&gt;
+
+&lt;p&gt;
+In org-journal.el, function org-journal-search-build-file-list retrieves the
+files "within a given time interval". Its implementation shows that it
+retrieves the files later than the start of the interval and earlier than the
+end of the interval:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="nv"&gt;period-start&lt;/span&gt; &lt;span class="nv"&gt;period-end&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;time-less-p&lt;/span&gt; &lt;span class="nv"&gt;period-start&lt;/span&gt; &lt;span class="nv"&gt;filetime&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;time-less-p&lt;/span&gt; &lt;span class="nv"&gt;filetime&lt;/span&gt; &lt;span class="nv"&gt;period-end&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;push&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+I considered creating a GitHub issue for this but refrained from doing. It
+seems it has not been an issue for anybody else in the last years.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-09-org-journal-search-excludes-the-start-and-end-date.html</guid><pubDate>Wed, 09 Aug 2017 10:53:00 GMT</pubDate></item><item><title>Issues when opening an org-journal file from the calender</title><link>https://example.com/posts/2017-08-09-issues-when-opening-an-org-journal-file-from-the-calender.html</link><dc:creator>Pieter Swinkels</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Issues when opening an org-journal file from the calender&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+
+&lt;p&gt;
+org-journal registers all journal entries with the Emacs calendar, which can be
+invoked through Emacs function calendar. In the calendar buffer, if you press
+'j' on a day that has a journal entry, Emacs opens the journal file in a new
+buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+When I visited the journal file through the calendar, I noticed that the buffer
+was in read-only mode, even for the current day. To toggle that mode, use Emacs
+function read-only-mode (bound to C-x C-q).
+&lt;/p&gt;
+
+&lt;p&gt;
+Then I noticed that the buffer was not in org-journal-mode. Inspection of
+auto-mode-alist showed it an entry for journal files, but only for journal
+files in their default directory (and I used another location).
+&lt;/p&gt;
+
+&lt;p&gt;
+I looked through the code of org-journal.el and saw that auto-mode-alist is
+updated if you customize org-journal-dir:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defcustom&lt;/span&gt; &lt;span class="nv"&gt;org-journal-dir&lt;/span&gt; &lt;span class="s"&gt;"~/Documents/journal/"&lt;/span&gt;
+  &lt;span class="nv"&gt;:type&lt;/span&gt; &lt;span class="ss"&gt;'string&lt;/span&gt; &lt;span class="nv"&gt;:group&lt;/span&gt; &lt;span class="ss"&gt;'org-journal&lt;/span&gt;
+  &lt;span class="nv"&gt;:set&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;symbol&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-default&lt;/span&gt; &lt;span class="nv"&gt;symbol&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-journal-update-auto-mode-alist&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+In my Emacs config I had changed the variable using setq, which apparently
+bypasses the defined setter function. The following snippet shows how to
+programmatically update org-journal-dir &lt;i&gt;and&lt;/i&gt; invoke the setter function:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;custom-set-variables&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;org-journal-dir&lt;/span&gt; &lt;span class="s"&gt;"~/repos/bitbucket.org/journal/"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+One other thing, org-journal requires the value of org-journal-dir to end with
+a slash as it just appends the regular expression for the journal files to this
+value.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>orgmode</category><guid>https://example.com/posts/2017-08-09-issues-when-opening-an-org-journal-file-from-the-calender.html</guid><pubDate>Wed, 09 Aug 2017 09:45:00 GMT</pubDate></item></channel></rss>

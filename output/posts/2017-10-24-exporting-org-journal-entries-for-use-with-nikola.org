@@ -1,0 +1,13 @@
+* Exporting org-journal entries for use with Nikola
+   :PROPERTIES:
+   :Time:     23:40
+   :END:
+
+Last week I have been busy writing Emacs Lisp code to export the contents of an
+org-journal for use with the static website generator [[https://getnikola.com/][Nikola]]. The goal is to let
+each entry become a blog post of the website. I just pushed the first version of
+the code to the new GitHub repo [[https://github.com/swinkels/oje][swinkels/oje]], where "oje" stands for
+"org-journal exporter".
+
+This first version should be "more or less" functional but still needs work to
+be usable by other people than me.

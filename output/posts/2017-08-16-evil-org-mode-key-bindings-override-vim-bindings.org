@@ -1,0 +1,22 @@
+* evil-org-mode key bindings override Vim bindings
+   :PROPERTIES:
+   :Time:     22:20
+   :END:
+
+The Spacemacs Org layer introduces several key bindings but unfortunately also
+overrides standard Vim bindings. In Vim, when you press 't' (in Normal mode),
+the cursor moves to the position right before the character that follows the 't'
+command. In Spacemacs, when you press 't' the type of the current headline
+changes, e.g. from standard title to TODO. I am not that fond of changes to
+standard Vim key bindings, especially not now while I am trying to become
+proficient in Vim.
+
+It turns out that minor mode evil-org-mode brings along the new key map. I could
+disable evil-org-mode, but this might be rather drastic. I could also restore
+the bindings of the keys that trouble me. For now I have decided to leave
+everything as-is. If the lack of 't' (or other keys) turns out to be
+troublesome, I will handle it then.
+
+In case I do decide to disable evil-org-mode, note that the function of the same
+name is added to org-mode-hook in evil-org.el. To disable it, I can remove it
+from the org-mode-hook in my .spacemacs.

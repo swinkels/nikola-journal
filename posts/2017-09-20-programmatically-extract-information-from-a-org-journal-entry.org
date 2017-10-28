@@ -1,0 +1,24 @@
+* Programmatically extract information from a org-journal entry
+   :PROPERTIES:
+   :Time:     17:09
+   :END:
+In an earlier journal entry I mentioned that I wanted to export the entries to
+HTML and use that HTML directly in my [[blog.journeythatcounts.nl][blog]]. However I found the functionality to
+export the entries to a site, which is called "publishing", too limited for my
+use case. For example, the export does not seem to support the creation of a
+"tag cloud" for the tags of each entry.
+
+sitemap and an index.
+#+BEGIN_SRC emacs-lisp
+  (defun my-extract()
+    "Return time, clocked on current item in total."
+    (save-excursion
+      (save-restriction
+        (org-narrow-to-subtree)
+        (let ((tstart "2017-08-09") (tend "2017-08-10"))
+          (org-clock-sum
+           (org-time-string-to-seconds tstart)
+           (org-time-string-to-seconds tend))))))
+
+  (org-map-entries 'my-extract nil nil)
+#+END_SRC

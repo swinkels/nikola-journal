@@ -1,0 +1,21 @@
+* Publishing org journals
+   :PROPERTIES:
+   :Time:     12:06
+   :END:
+I would like to export my Org journal files on [[http://blog.journalthatcounts.nl][my blog]].
+
+My blog is generated using the static website generator Nikola. Although Nikola
+supports Org files, I cannot just feed it the journal files as-is. For example,
+Nikola requires specific meta information about each blog entry, which a journal
+entry does not have. However, that is just a minor technical hurdle - we could
+automatically extract the meta information from each entry.
+
+Another thing is that I do not want to give journal entries the same "status" as
+blog posts. For example, I want blog posts and journal entries to appear on
+separate pages, to exclude journal updates from the RSS feeds. This means that I
+cannot use Nikola /categories/ or /sections/ to distinguish posts. At least, not
+without some custom changes to Nikola.
+
+Because I want my export my journal as soon as possible, I will export them to
+HTML using the Org mode publishing capabilities. This export will be accessible
+from the blog through a new top-level tab, e.g. "Journal".

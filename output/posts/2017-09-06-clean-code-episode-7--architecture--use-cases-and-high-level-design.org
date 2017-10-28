@@ -1,0 +1,28 @@
+* Clean Code episode 7: Architecture, Use Cases and High Level Design
+   :PROPERTIES:
+   :Time:     22:53
+   :END:
+Yesterday and today I watched episode 7 of the Clean Code series on
+architecture. It's a big episode that covers a lot of ground.
+
+In this episode, Martin states that the architecture should be determined by the
+use cases. He uses use cases that are independent of the delivery mechanism of
+the application (web interface, console interface, ...), or the persistency
+mechanism (flat files, relational database, ...).
+
+That approach allows you to design the architecture independent of those
+concerns. A good architecture should allow you to defer decisions related to
+those concerns.
+
+During the episode, Robert Martin refers to several books among them
+
+- Object Oriented Software Engineering: A Use Case Driven Approach, by Ivar
+  Jacobson, and
+- Agile Software Development, by Robert Martin.
+
+From the book by Jacobson he uses the distinction between Entities, Interactors
+and Boundaries to discuss the main elements of an architecture.
+
+From his own book he uses a case study on how the first use cases drive the
+initial architecture of a payroll system. That book is on my bookshelf, so maybe
+it is time for a reread.

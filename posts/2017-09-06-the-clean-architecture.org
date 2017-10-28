@@ -1,0 +1,31 @@
+* The Clean Architecture
+   :PROPERTIES:
+   :Time:     23:49
+   :END:
+
+I googled for the terms Entities, Interactors and Boundaries and that lead me to
+the following blog post by Martin from 2012, [[https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html][The Clean Architecture]]. In this
+post he mentions several architectures from "the last several years":
+#+BEGIN_QUOTE
+Though these architectures all vary somewhat in their details, they are very
+similar. They all have the same objective, which is the separation of concerns.
+They all achieve this separation by dividing the software into layers.
+#+END_QUOTE
+The article describes the benefits of such an approach and the architectur it
+leads to.
+
+This separation in layers is very related to guidelines I have tried to
+follow for the last decade:
+
+- each layer considers the system at one specific level of abstraction;
+- each layer builds upon other layers: those lower layers have a level of
+  abstraction that is equal to the current layer, or lower;
+- each layer has a well-defined interface and layers only communicate through
+  that interface;
+- each layer only talks to the layers below it.
+
+For me, designs that satisfy these requirements almost emerge automatically when
+you do Test-Driven Development.
+
+Once caveat, the fact that I try to follow these guidelines does not mean I
+always succeed...

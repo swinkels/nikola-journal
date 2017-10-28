@@ -1,0 +1,29 @@
+* Finding journal entries from the org-mode Agenda buffer
+   :PROPERTIES:
+   :Time:     15:36
+   :END:
+
+The org-mode Agenda buffer allows you to easily list all headlines (such as
+journal entries) that match specific tags or properties. For this to work you
+have to tell org-mode which files it has to search:
+
+1. Variable org-agenda-files contains a list of directories and files to
+   search.
+2. If an element of org-agenda-files is a directory, org-mode searches through
+   those files whose name satisfies the regular expression
+   org-agenda-file-regexp.
+
+Journal files are placed in directory org-journal-dir, so we extend
+org-agenda-files to consider this directory also:
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-agenda-files org-journal-dir)
+#+END_SRC
+
+This is not enough as org-mode only considers those file that end with
+extension .org. By default, journal files do not have that extension - their
+name follows the pattern "%Y%m%d". I could extend the regular expression
+org-agenda-file-regexp to consider journal files also, but it is easier to let
+journal files have the .org extension:
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables '(org-journal-file-format "%Y%m%d.org"))
+#+END_SRC
