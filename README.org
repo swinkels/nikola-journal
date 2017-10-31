@@ -1,0 +1,42 @@
+This repo contains the personal journal of Pieter Swinkels as a static site that
+is build using [[https://getnikola.com/][Nikola]], the static site generator.
+
+Requirements
+------------
+
+Nikola requires Python 3.3+.
+
+Installation
+------------
+
+Clone the repo to a local directory, e.g.
+#+BEGIN_SRC Shell-script
+$> git clone https://github.com/swinkels/nikola-journal.git
+#+END_SRC
+This will clone the repo to subdirectory nikola-journal. In case you do not have
+access to Git, you can also download the current version from Github as a [[https://github.com/swinkels/nikola-journal/archive/master.zip][zip
+file]].
+
+The site is generated using the static site generator Nikola. To install Nikola
+(and its dependencies), we advise you to use a virtualenv so you do not clutter
+or even break your current Python setup. The use of virtualenv is beyond the
+scope of this README and for information about that we refer to [[https://docs.python.org/3/tutorial/venv.html][the official
+documentation]].
+
+To download and install Nikola, execute the following command from the directory
+that contains the repo:
+#+BEGIN_SRC Shell-script
+$ nikola-journal> pip install -r requirements.txt
+#+END_SRC
+
+The content of the site can be found in subdirectory posts/ in individual
+[[http://orgmode.org/][orgmode]] files. Execute the following command to build the site from these files:
+#+BEGIN_SRC Shell-script
+$ nikola-journal> nikola build
+#+END_SRC
+The files that make up the site are placed in subdirectory output/. The next
+command lets Nikola serve the site at http://localhost:8000 so you can view it
+in your browser
+#+BEGIN_SRC Shell-script
+$ nikola-journal> nikola serve
+#+END_SRC
