@@ -1,5 +1,7 @@
 *~
 *.pyc
 
+.doit.db
 cache/*
+output/*
 __pycache__/*
