@@ -1,0 +1,31 @@
+* Cask error "Version must be a string"
+   :PROPERTIES:
+   :Time:     11:37
+   :END:
+
+I used to Cask to develop a package that I wanted to use in my Emacs config.
+After I linked my Emacs config to the local package directory via the ~cask
+link~ command, Emacs complained during the subsequent startup:
+#+BEGIN_EXAMPLE
+Failed initialization: (error "Version must be a string"), ""
+#+END_EXAMPLE
+When I issued the ~cask list~ command in my .emacs.d directory, I got the same
+message:
+#+BEGIN_SRC Shell-script
+.emacs.d > cask list
+Failed initialization: (error "Version must be a string"), ""
+#+END_SRC
+
+In the end I traced it back to an issue with the Cask file in the package I
+develop. The Cask file can specify the package information or refer to another
+file with that information via the ~package-file~ function. I used the latter
+approach and it turned out that does not work with the ~cask link~ command to
+install a local package.
+
+When you issue the ~cask link~ command, that command will retrieve the version
+info from the Cask file of the package you link, or from its =-pkg.el= file. It
+turned out that the command can only retrieve the package information from the
+Cask file /when that file explicitly specifies it/. If your Cask file uses the
+other approach, that is, refers to another file for the version information, the
+command will use the =-pkg.el= file. If that file is not there, or incomplete,
+you will see the "Version must be a string" error.

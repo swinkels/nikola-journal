@@ -1,0 +1,19 @@
+* Creating a static website for my org-journal posts
+   :PROPERTIES:
+   :Time:     21:44
+   :END:
+
+I exported the org-journal entries using the static website generator [[https://getnikola.com/][Nikola]],
+and pushed the results to my new Github repo [[https://github.com/swinkels/nikola-journal][swinkels/nikola-journal]]. When
+served locally, the site looks already quite usable.
+
+I did notice that the "blog post" of each journal entry displays the title of
+the entry twice. Probably Nikola uses the title in the .meta file as the first
+title and the title of the entry itself as the second. I can solve this by not
+exporting the title to the .org file, but we will have to see what that does
+with the PROPERTIES drawer. To my exporter, this drawer is part of the
+org-journal entry.
+
+Github renders org-mode files natively, so even the new Github repo gives you a
+rendered view of the org files. You just have to visit the .org files in the
+[[https://github.com/swinkels/nikola-journal/tree/master/posts][posts]] subdirectory of the repo.

@@ -3,6 +3,11 @@
    :Time:     20:48
    :END:
 
+My current development machine runs Xubuntu 16.04.3 LTS, whose default Python
+version is Python 2.x. This means that when you create a virtualenv, by default
+it will use that Python version. Fortunately virtualenv allows you to specify
+which Python you want to use when you create the virtualenv, as shown by the
+following snippet:
 #+BEGIN_SRC Schell-script
 ➜  my-dir mkvirtualenv --python=/usr/bin/python3 nikola-journal
 Already using interpreter /usr/bin/python3
@@ -10,6 +15,10 @@ Using base prefix '/usr'
 New python executable in /home/pieter/.virtualenvs/nikola-journal/bin/python3
 Also creating executable in /home/pieter/.virtualenvs/nikola-journal/bin/python
 Installing setuptools, pkg_resources, pip, wheel...done.
-(nikoal-journal) ➜  my-dir python --version
+(nikola-journal) ➜  my-dir python --version
 Python 3.5.2
 #+END_SRC
+
+The output about "Already using interpreter /usr/bin/python3" seems a bit
+strange. When I use mkvirtualenv without specifying the Python binary, the
+created virtualenv will use /usr/bin/python, which is Python 2.x.
