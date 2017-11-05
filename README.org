@@ -1,13 +1,11 @@
 This repo contains the personal journal of Pieter Swinkels as a static site that
 is build using [[https://getnikola.com/][Nikola]], the static site generator.
 
-Requirements
-------------
+* Requirements
 
 Nikola requires Python 3.3+.
 
-Installation
-------------
+* Installation
 
 Clone the repo to a local directory, e.g.
 #+BEGIN_SRC Shell-script
