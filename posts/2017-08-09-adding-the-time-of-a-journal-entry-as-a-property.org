@@ -1,4 +1,3 @@
-* Adding the time of a journal entry as a property
    :PROPERTIES:
    :Time:     16:01
    :END:

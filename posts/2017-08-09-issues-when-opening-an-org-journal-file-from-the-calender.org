@@ -1,4 +1,3 @@
-* Issues when opening an org-journal file from the calender
    :PROPERTIES:
    :Time:     11:45
    :END:

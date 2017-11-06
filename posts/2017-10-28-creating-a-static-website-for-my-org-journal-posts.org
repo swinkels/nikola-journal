@@ -1,4 +1,3 @@
-* Creating a static website for my org-journal posts
    :PROPERTIES:
    :Time:     21:44
    :END:

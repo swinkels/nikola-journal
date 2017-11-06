@@ -1,4 +1,3 @@
-* Finding journal entries from the org-mode Agenda buffer
    :PROPERTIES:
    :Time:     15:36
    :END:

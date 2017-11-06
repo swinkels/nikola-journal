@@ -1,4 +1,3 @@
-* Cask error "Version must be a string"
    :PROPERTIES:
    :Time:     11:37
    :END:

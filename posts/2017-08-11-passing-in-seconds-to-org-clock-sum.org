@@ -1,4 +1,3 @@
-* Passing in seconds to org-clock-sum
    :PROPERTIES:
    :Time:     09:44
    :END:

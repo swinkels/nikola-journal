@@ -1,4 +1,3 @@
-* My Spacemacs configuration on GitHub
    :PROPERTIES:
    :Time:     21:17
    :END:

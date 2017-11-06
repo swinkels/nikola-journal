@@ -1,4 +1,3 @@
-* Spacemacs and the super star (*)
    :PROPERTIES:
    :Time:     21:21
    :END:

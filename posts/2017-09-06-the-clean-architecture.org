@@ -1,4 +1,3 @@
-* The Clean Architecture
    :PROPERTIES:
    :Time:     23:49
    :END:

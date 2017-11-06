@@ -1,4 +1,3 @@
-* Letting CapsLock be Control and Escape
    :PROPERTIES:
    :Time:     20:48
    :END:

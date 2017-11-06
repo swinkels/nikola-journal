@@ -1,4 +1,3 @@
-* Publishing
    :PROPERTIES:
    :Time:     14:05
    :END:

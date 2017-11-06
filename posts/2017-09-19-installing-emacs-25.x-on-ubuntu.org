@@ -1,4 +1,3 @@
-* Installing Emacs 25.x on Ubuntu
    :PROPERTIES:
    :Time:     22:10
    :END:

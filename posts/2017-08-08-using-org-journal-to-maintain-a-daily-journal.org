@@ -1,4 +1,3 @@
-* Using org-journal to maintain a daily journal
    :PROPERTIES:
    :Time:     22:16
    :END:

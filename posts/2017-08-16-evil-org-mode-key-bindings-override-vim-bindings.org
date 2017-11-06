@@ -1,4 +1,3 @@
-* evil-org-mode key bindings override Vim bindings
    :PROPERTIES:
    :Time:     22:20
    :END:

@@ -1,4 +1,3 @@
-* Clean Code episode 7: Architecture, Use Cases and High Level Design
    :PROPERTIES:
    :Time:     22:53
    :END:

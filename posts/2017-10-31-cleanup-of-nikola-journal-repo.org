@@ -1,4 +1,3 @@
-* Cleanup of nikola-journal repo
    :PROPERTIES:
    :Time:     10:02
    :END:

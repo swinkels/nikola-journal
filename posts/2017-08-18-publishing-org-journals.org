@@ -1,4 +1,3 @@
-* Publishing org journals
    :PROPERTIES:
    :Time:     12:06
    :END:

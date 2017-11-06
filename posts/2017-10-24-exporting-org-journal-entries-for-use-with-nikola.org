@@ -1,4 +1,3 @@
-* Exporting org-journal entries for use with Nikola
    :PROPERTIES:
    :Time:     23:40
    :END:
