@@ -1,0 +1,22 @@
+   :PROPERTIES:
+   :Time:     21:37
+   :END:
+
+While working on the Nikola export of my journal, I noticed that each journal
+entry also mentioned the author. As it is my journal, all entries are written by
+me, and I wanted to remove the information from the export.
+
+The Nikola documentation refers to a [[https://getnikola.com/theming.html#templates][whole list of templates]] but I only found a
+single template in the templates/ directory of my journal Nikola site. After
+some googling I found the Nikola command that copies a template you specify to
+the templates/ directory: =nikola theme -c ARG=, where ARG is the name of the
+template to copy. For example, the following command copies template post.tmpl:
+#+BEGIN_SRC Shell-script
+$> nikola theme -c post.tmpl
+#+END_SRC
+Once in templates/, Nikola will use this template instead of the default one
+when you build the site.
+
+The two templates I had to modify were index.tmpl and post_header.tmpl. From
+these templates I removed the lines that were responsible for exporting
+=${post.author}|y}=.
